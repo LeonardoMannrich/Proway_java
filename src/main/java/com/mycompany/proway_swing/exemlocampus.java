@@ -151,6 +151,11 @@ public class exemlocampus extends javax.swing.JFrame {
         });
 
         jButtonApagar.setText("Apagar");
+        jButtonApagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonApagarActionPerformed(evt);
+            }
+        });
 
         jButtonExport.setText("Export");
         jButtonExport.addActionListener(new java.awt.event.ActionListener() {
@@ -429,6 +434,15 @@ public class exemlocampus extends javax.swing.JFrame {
             e.printStackTrace();
         }
     }//GEN-LAST:event_jButtonExportActionPerformed
+
+    private void jButtonApagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApagarActionPerformed
+var modelo = (DefaultTableModel)jTable1.getModel();
+var indiceLInhaSelecionada = jTable1.getSelectedRow();
+modelo.removeRow(indiceLInhaSelecionada);
+salvarNoExcel();
+    
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonApagarActionPerformed
 
     /**
      * @param args the command line arguments
