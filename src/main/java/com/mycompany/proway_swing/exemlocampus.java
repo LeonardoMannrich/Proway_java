@@ -15,7 +15,6 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
-
 /**
  *
  * @author 74703
@@ -128,15 +127,20 @@ public class exemlocampus extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nome", "Sobrenome", "Mês nascimento", "Ano nascimento", "Área de atuação", "Sexo", "Descrição"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, true, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane2.setViewportView(jTable1);
 
         jButtonEditar.setText("Editar");
@@ -191,19 +195,16 @@ public class exemlocampus extends javax.swing.JFrame {
                             .addComponent(jRadioButtonSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabelSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jRadioButtonSexo2, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(144, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jButtonExport, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(jButtonEditar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButtonApagar)
-                        .addGap(165, 165, 165))))
+                        .addComponent(jButtonApagar))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 566, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(31, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -266,76 +267,141 @@ public class exemlocampus extends javax.swing.JFrame {
     private void jButtonProcessarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonProcessarActionPerformed
         // get == obter algo
         // set == definir algo
-        
+
         //obter o nome que o usuario digitou do campo de texto (jtextField1)
         String nome = jTextFieldNome.getText();
         //obter o sobrenome que o usuario digitou do campo de texto (jtextField2)
         String sobrenome = jTextFieldSobrenome.getText();
-        
+
         String mesNascimento = (String) jComboBoxMesnascimento.getSelectedItem();
         int anoNascimento = Integer.parseInt(jSpinnerAnoNascimento.getValue().toString());
         String sexo = "";
-        if (jRadioButtonSexo2.isSelected() == true){
+        if (jRadioButtonSexo2.isSelected() == true) {
             sexo = "Feminino";
-        }else if (jRadioButtonSexo.isSelected() == true){
+        } else if (jRadioButtonSexo.isSelected() == true) {
             sexo = "Masculino";
         }
         boolean ehBackEnd = jCheckBoxBackEnd.isSelected();
         boolean ehFrontEnd = jCheckBoxFrontEnd.isSelected();
         String descricao = jTextAreaDescricao.getText();
         String nomecompleto = nome + " " + sobrenome;
-        String mensagem = "Nome Completo " + nomecompleto
-                + "\nAno Nascimento: " + anoNascimento
-                + "\nSexo: " + sexo 
-                + "\nFront-End: " + ehFrontEnd
-                + "\nBack-End: " + ehBackEnd 
-                + "\nDescrição: " + descricao;
- 
-        JOptionPane.showMessageDialog(null, mensagem);
+
+        String areaAtuacao = "Full Stack";
+        if (ehBackEnd == true && ehFrontEnd == false) {
+            areaAtuacao = "Back-End";
+        } else if (ehBackEnd == false && ehFrontEnd == true) {
+            areaAtuacao = "Front-End";
+        }
+
+        var modeloTabela = (DefaultTableModel) jTable1.getModel();
+
+        modeloTabela.addRow(new Object[]{
+            nome,
+            sobrenome,
+            mesNascimento,
+            anoNascimento,
+            areaAtuacao,
+            sexo,
+            descricao
+        });
+        salvarNoExcel();
+
+        JOptionPane.showConfirmDialog(null, "Cadastrado com sucesso");
+
 
     }//GEN-LAST:event_jButtonProcessarActionPerformed
-        
-        private String getTextoBoolean(Boolean Value){
-            if (Value == true){
+    private void salvarNoExcel() {
+        var modelo = (DefaultTableModel) jTable1.getModel();
+
+        try ( Workbook excel = new XSSFWorkbook()) {
+            Sheet planilha = excel.createSheet("Colaboradores");
+
+            Row linhaCabecalho = planilha.createRow(0);
+            linhaCabecalho.createCell(0).setCellValue("Nome");
+            linhaCabecalho.createCell(1).setCellValue("Sobrenome");
+            linhaCabecalho.createCell(2).setCellValue("Mês Nascimento");
+            linhaCabecalho.createCell(3).setCellValue("Ano Nascimento");
+            linhaCabecalho.createCell(4).setCellValue("Área de Atuação");
+            linhaCabecalho.createCell(5).setCellValue("Sexo");
+            linhaCabecalho.createCell(6).setCellValue("Descrição");
+            // Pegar o modelo da tabela
+
+            // Percorrer cada uma das linhas da tabela
+            for (var i = 0; i < modelo.getRowCount(); i++) {
+                // Obter o nome do produto da linha iterada
+                String nome = modelo.getValueAt(i, 0).toString();
+                String sobrenome = modelo.getValueAt(i, 1).toString();
+                String mesNascimento = modelo.getValueAt(i, 2).toString();
+                String anoNascimento = modelo.getValueAt(i, 3).toString();
+                String areaAtuacao = modelo.getValueAt(i, 4).toString();
+                String sexo = modelo.getValueAt(i, 5).toString();
+                String descricao = modelo.getValueAt(i, 6).toString();
+                // Criar uma linha na planilha
+                Row linha = planilha.createRow(i + 1);
+                // Criar uma célula definindo o nome do produto da linha iterada
+                linha.createCell(0).setCellValue(nome);
+                linha.createCell(1).setCellValue(sobrenome);
+                linha.createCell(2).setCellValue(mesNascimento);
+                linha.createCell(3).setCellValue(anoNascimento);
+                linha.createCell(4).setCellValue(areaAtuacao);
+                linha.createCell(5).setCellValue(sexo);
+                linha.createCell(6).setCellValue(descricao);
+            }
+
+            // Obter o caminho da pasta da área de trabalho do usuário
+            var caminhoDesktop = Paths.get(
+                    System.getProperty("user.home"), "Desktop");
+            // Obter o caminho do arquivo do excel que será importado
+            var caminhoArquivo = caminhoDesktop.resolve("example.xlsx");
+
+            FileOutputStream arquivoSaida = new FileOutputStream(caminhoArquivo.toFile());
+            excel.write(arquivoSaida);
+            arquivoSaida.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String getTextoBoolean(Boolean Value) {
+        if (Value == true) {
             return "Sim";
+        } else {
+            return "Nâo";
         }
-            else{
-                    return "Nâo";
-                    }
-        }
-              
+    }
+
     private void jComboBoxMesnascimentoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxMesnascimentoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxMesnascimentoActionPerformed
 
     private void jCheckBoxTermosDeUsoItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jCheckBoxTermosDeUsoItemStateChanged
-       boolean   termosDeAcordoAceitos = jCheckBoxTermosDeUso.isSelected();
-       
-       if (termosDeAcordoAceitos == true){
-           jButtonProcessar.setEnabled(true);
-           jButtonCancelar.setEnabled(true);            
-       }else{
-           jButtonProcessar.setEnabled(false); 
-           jButtonCancelar.setEnabled(false); 
-       }
+        boolean termosDeAcordoAceitos = jCheckBoxTermosDeUso.isSelected();
+
+        if (termosDeAcordoAceitos == true) {
+            jButtonProcessar.setEnabled(true);
+            jButtonCancelar.setEnabled(true);
+        } else {
+            jButtonProcessar.setEnabled(false);
+            jButtonCancelar.setEnabled(false);
+        }
     }//GEN-LAST:event_jCheckBoxTermosDeUsoItemStateChanged
 
     private void jButtonCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCancelarActionPerformed
-      jTextFieldNome.setText("");
-      jTextFieldSobrenome.setText("");
-      jTextAreaDescricao.setText("");
-      
-      jCheckBoxBackEnd.setSelected(false);
-      jCheckBoxFrontEnd.setSelected(false);
-      jCheckBoxTermosDeUso.setSelected(false);
-      
-      buttonGroup1.clearSelection();
-      
-      jSpinnerAnoNascimento.setValue(2024);
-      
-      jComboBoxMesnascimento.setSelectedIndex(0);
-      
-      
+        jTextFieldNome.setText("");
+        jTextFieldSobrenome.setText("");
+        jTextAreaDescricao.setText("");
+
+        jCheckBoxBackEnd.setSelected(false);
+        jCheckBoxFrontEnd.setSelected(false);
+        jCheckBoxTermosDeUso.setSelected(false);
+
+        buttonGroup1.clearSelection();
+
+        jSpinnerAnoNascimento.setValue(2024);
+
+        jComboBoxMesnascimento.setSelectedIndex(0);
+
+
     }//GEN-LAST:event_jButtonCancelarActionPerformed
 
     private void jButtonEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditarActionPerformed
@@ -343,7 +409,7 @@ public class exemlocampus extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonEditarActionPerformed
 
     private void jButtonExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonExportActionPerformed
-try (Workbook planilha = new XSSFWorkbook()) {
+        try ( Workbook planilha = new XSSFWorkbook()) {
             Sheet folha = planilha.createSheet("Produtos");
 
             Row linhaCabecalho = folha.createRow(0);
@@ -351,11 +417,11 @@ try (Workbook planilha = new XSSFWorkbook()) {
 
             Row linhaPrimeiroRegistro = folha.createRow(1);
             linhaPrimeiroRegistro.createCell(0).setCellValue("Maçã");
-            
+
             Path caminhoDesktop = Paths.get(
                     System.getProperty("user.home"), "Desktop");
             Path caminhoArquivo = caminhoDesktop.resolve("example.xlsx");
-            
+
             FileOutputStream arquivoSaida = new FileOutputStream(caminhoArquivo.toFile());
             planilha.write(arquivoSaida);
             arquivoSaida.close();

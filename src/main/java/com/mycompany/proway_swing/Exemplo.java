@@ -170,6 +170,21 @@ public class Exemplo extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
     String nome = jTextFieldProduto.getText();
     
+    if(nome.length()<3){
+        JOptionPane.showConfirmDialog(null,"Nome deve conter no minimo 3 caracteres",
+                "aviso",
+                JOptionPane.ERROR_MESSAGE);
+                jTextFieldProduto.requestFocus();
+                return;
+    }
+    if(nome.length()>20){
+        JOptionPane.showConfirmDialog(null,"Nome deve conter no minimo 20 caracteres",
+                "aviso",
+                JOptionPane.ERROR_MESSAGE);
+                jTextFieldProduto.requestFocus();
+                return;
+    }
+    
         DefaultTableModel modeloTabela = (DefaultTableModel) jTableProdutos.getModel();
         
         if (indicelinhaselecionada == -1){
@@ -248,6 +263,10 @@ try (Workbook planilha = new XSSFWorkbook()) {
             FileOutputStream arquivoSaida = new FileOutputStream(caminhoArquivo.toFile());
             planilha.write(arquivoSaida);
             arquivoSaida.close();
+            
+            JOptionPane.showMessageDialog(
+            null, "produtos exportados com sucesso para o arquivo excel"
+            );
         } catch (IOException e) {
             e.printStackTrace();
         }
