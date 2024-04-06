@@ -54,9 +54,6 @@ public class ExemploArray {
         );
     }
 
-    
-    
-    
     private static void exemplo02() {
         var nomes = new ArrayList<String>();
         var quantidades = new ArrayList<Integer>();
@@ -93,13 +90,11 @@ public class ExemploArray {
         JOptionPane.showConfirmDialog(null, "Total dos pedidos: " + totalpedidos);
     }
 
-    
-    
     private static void exemplo03() {
         for (int i = 0; i < 3; i = i + 1) {
-        var nome = Integer.parseInt(JOptionPane.showInputDialog("Digite a quantidade para cadastro"));
-         JOptionPane.showMessageDialog(null, nome);
-        
+            var nome = Integer.parseInt(JOptionPane.showInputDialog("Digite a quantidade para cadastro"));
+            JOptionPane.showMessageDialog(null, nome);
 
+        }
     }
-    }
+}

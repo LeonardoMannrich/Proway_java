@@ -14,30 +14,30 @@ public class ExemploObjeto {
 
     public void executar() {
         // Instanciando(new) um objeto chamado xbox da classe produtos
-        var xbox = new produto();
+        var xbox = new Alunos();
         // definindo valor para os atributos do objeto xbox
         xbox.nome = "xbox series x";
         xbox.quantidade = 2;
-        xbox.precounitario = 3500.00;
+        xbox.precoUnitario = 3500.00;
         // chamando o método calcularpreco do objeto xbox
         var precoxbox = xbox.calcularpreco();
 
-        var ps5 = new produto();
+        var ps5 = new Alunos();
         ps5.nome = "playstation 5";
-        ps5.precounitario = 3300.00;
+        ps5.precoUnitario = 3300.00;
         ps5.quantidade = 4;
         var precops5 = ps5.calcularpreco();
 
         //alterado o preço do ps5
-        ps5.precounitario = 3150.99;
+        ps5.precoUnitario = 3150.99;
 
         JOptionPane.showMessageDialog(null,
                 "nome: " + xbox.nome
                 + "\nquantidade: " + xbox.quantidade
-                + "\npreço unitario: " + xbox.precounitario
+                + "\npreço unitario: " + xbox.precoUnitario
                 + "\n\nnome: " + ps5.nome
                 + "\nquantidade: " + ps5.quantidade
-                + "\npreço unitário: " + ps5.precounitario
+                + "\npreço unitário: " + ps5.precoUnitario
                 + "\n preco produto 2: " + precops5);
 
     }

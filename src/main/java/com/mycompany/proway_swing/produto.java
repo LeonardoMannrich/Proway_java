@@ -8,15 +8,16 @@ package com.mycompany.proway_swing;
  *
  * @author 74703
  */
-public class produto {
+public class Alunos {
     public String nome;
-    public double precounitario;
+    public double precoUnitario;
     public int quantidade;
+    public int codigo;
     
     //método para calcular e retornar o preço do produto
     //método com retorno do tipo double
      public double calcularpreco(){
-         var preco = quantidade * precounitario;
+         var preco = quantidade * precoUnitario;
          return preco;
      }
    
