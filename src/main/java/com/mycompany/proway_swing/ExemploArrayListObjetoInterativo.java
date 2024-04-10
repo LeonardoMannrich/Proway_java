@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
  */
 public class ExemploArrayListObjetoInterativo {
 
-    private ArrayList<Alunos> produtos = new ArrayList<>();// o eescopo é a instancia em si ou sejaa classe
+    private ArrayList<Produto> produtos = new ArrayList<>();// o eescopo é a instancia em si ou sejaa classe
     private int indiceAtual = 1;
 
     // CRUD (Create, Read, Update, Delete)
