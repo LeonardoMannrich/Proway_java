@@ -59,7 +59,7 @@ public class ExemploArrayListObjetoInterativo {
     }
 
     public void cadastrar() {
-        var produto = new Alunos(); // escopo objeto é o método cadastrar
+        var produto = new Produto(); // escopo objeto é o método cadastrar
         produto.codigo = indiceAtual;
         produto.nome = JOptionPane.showInputDialog("Informe o nome");
         produto.quantidade = Integer.parseInt(JOptionPane.showInputDialog("Informe a quantidade"));

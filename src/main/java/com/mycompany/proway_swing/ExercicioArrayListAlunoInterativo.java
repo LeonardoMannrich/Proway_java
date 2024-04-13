@@ -13,14 +13,14 @@ import javax.swing.JOptionPane;
  */
 public class ExercicioArrayListAlunoInterativo {
     
-    private ArrayList<Alunos> Aluno = new ArrayList<>();
+    private ArrayList<Aluno> Aluno = new ArrayList<>();
     private int idAluno = 1;
     
     
     public void apresentarMenu() {
         
         var botoes = new String[]
-         ("cadastrar", "Editar", "Apagar", "Listar todos", "Produto menor preço", "Calcular total", "Sair");
+        {"cadastrar", "Editar", "Apagar", "Listar todos", "Produto menor preço", "Calcular total", "Sair"};
         
         var menuEscolhido = 0;
         var botaoSairAluno = botoes.length -1;
@@ -34,7 +34,7 @@ public class ExercicioArrayListAlunoInterativo {
              null,
              botoes,
              "Cadastrar");
-            switch (menuEscolhido) {
+           /* switch (menuEscolhido) {
                 case 0:
                     CadastrarAluno();
                     
@@ -45,7 +45,7 @@ public class ExercicioArrayListAlunoInterativo {
                     CadastrarAluno();
                 break;
                     
-            }
+            }*/
              
         }
         }

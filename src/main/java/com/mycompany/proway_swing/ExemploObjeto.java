@@ -14,7 +14,7 @@ public class ExemploObjeto {
 
     public void executar() {
         // Instanciando(new) um objeto chamado xbox da classe produtos
-        var xbox = new Alunos();
+        var xbox = new Produto();
         // definindo valor para os atributos do objeto xbox
         xbox.nome = "xbox series x";
         xbox.quantidade = 2;
@@ -22,7 +22,7 @@ public class ExemploObjeto {
         // chamando o método calcularpreco do objeto xbox
         var precoxbox = xbox.calcularpreco();
 
-        var ps5 = new Alunos();
+        var ps5 = new Produto();
         ps5.nome = "playstation 5";
         ps5.precoUnitario = 3300.00;
         ps5.quantidade = 4;

@@ -13,10 +13,10 @@ import javax.swing.JOptionPane;
  */
 public class ExemploArrayListObjeto {
     public void exemploArrayListProdutos(){
-        var produtos = new ArrayList<Alunos>();
+        var produtos = new ArrayList<Produto>();
         
         //instanciando um objeto de produto
-        var produtoXbox = new Alunos();
+        var produtoXbox = new Produto();
         // Definindo valor para os atributos do produto
         produtoXbox.nome = "Xbox";
         produtoXbox.quantidade = 2;
@@ -24,7 +24,7 @@ public class ExemploArrayListObjeto {
         // Adicionado o objeto no ArrayList de produtos
         produtos.add(produtoXbox);
         
-        var ProdutoPs5 = new Alunos();
+        var ProdutoPs5 = new Produto();
         ProdutoPs5.nome = "PS5";
         ProdutoPs5.precoUnitario = 3300.00;
         ProdutoPs5.quantidade = 1;

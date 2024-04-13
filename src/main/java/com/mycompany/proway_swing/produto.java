@@ -8,7 +8,7 @@ package com.mycompany.proway_swing;
  *
  * @author 74703
  */
-public class Alunos {
+public class Produto {
     public String nome;
     public double precoUnitario;
     public int quantidade;
