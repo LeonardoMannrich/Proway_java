@@ -4,6 +4,7 @@
  */
 package com.mycompany.proway_swing.telas;
 
+import com.mycompany.proway_swing.bancoDados.Banco;
 import javax.swing.JOptionPane;
 import java.sql.*;
 import javax.swing.table.DefaultTableModel;
@@ -22,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
     public FilmeJFrame() {
         initComponents();
         listarFilmes();
+        popularComboBoxCategorias();
     }
 
     /**
@@ -42,8 +44,10 @@ import javax.swing.table.DefaultTableModel;
         jTextFieldNome = new javax.swing.JTextField();
         jButtomCadastrarNome = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
+        jLabelCategoria = new javax.swing.JLabel();
+        jComboBoxCategoria = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabelLista.setText("Lista de Filmes");
 
@@ -52,11 +56,11 @@ import javax.swing.table.DefaultTableModel;
 
             },
             new String [] {
-                "Código", "Nome"
+                "Código", "Categorias", "Nome"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false
+                false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -66,6 +70,7 @@ import javax.swing.table.DefaultTableModel;
         jScrollPane1.setViewportView(jTableFilmes);
         if (jTableFilmes.getColumnModel().getColumnCount() > 0) {
             jTableFilmes.getColumnModel().getColumn(1).setResizable(false);
+            jTableFilmes.getColumnModel().getColumn(2).setResizable(false);
         }
 
         jButtonEditarLista.setText("Editar");
@@ -93,6 +98,16 @@ import javax.swing.table.DefaultTableModel;
 
         jSeparator1.setOrientation(javax.swing.SwingConstants.VERTICAL);
 
+        jLabelCategoria.setText("Categoria");
+
+        jComboBoxCategoria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] {  }));
+        jComboBoxCategoria.setSelectedIndex(-1);
+        jComboBoxCategoria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBoxCategoriaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -111,17 +126,21 @@ import javax.swing.table.DefaultTableModel;
                 .addGap(3, 3, 3)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtomCadastrarNome))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(52, 52, 52)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
+                        .addComponent(jButtomCadastrarNome)
+                        .addGap(9, 9, 9))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextFieldNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
+                            .addComponent(jComboBoxCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabelNome)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jTextFieldNome, javax.swing.GroupLayout.DEFAULT_SIZE, 237, Short.MAX_VALUE))))
-                .addGap(9, 9, 9))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabelNome)
+                                    .addComponent(jLabelCategoria))
+                                .addGap(0, 0, Short.MAX_VALUE)))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -130,45 +149,57 @@ import javax.swing.table.DefaultTableModel;
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelLista)
-                    .addComponent(jLabelNome))
+                    .addComponent(jLabelCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButtonEditarLista)
-                            .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jComboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonApagarLista)
-                            .addComponent(jButtomCadastrarNome)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jButtonApagarLista))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabelNome)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButtomCadastrarNome))))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtomCadastrarNomeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtomCadastrarNomeActionPerformed
         try {
-            String nome = jTextFieldNome.getText();
+            var nome = jTextFieldNome.getText();
+            var categoria = (String)jComboBoxCategoria.getSelectedItem();
+            var parts = categoria.split(" _ ");
+            var idCategoria = Integer.parseInt(parts[0]);
 
-            var jdbcUrl = "jdbc:mysql://localhost:3306/locadora";
-            var jdbcUsuario = "root";
-            var jdbcSenha = "admin";
+           var conexao = Banco.conectar();
 
-            var conexao = DriverManager.getConnection(
-                    jdbcUrl, jdbcUsuario, jdbcSenha
-            );
             String query;
             if (idEscolhido == -1){
-            query = "INSERT INTO filmes (nome) VALUES ('" + nome + "')";
+            query = "INSERT INTO filmes (id_categoria, nome) VALUES (?,?)";
+            var prepareStatement = conexao.prepareStatement(query);
+            prepareStatement.setInt(1, idCategoria);
+            prepareStatement.setString(2, nome);
+            prepareStatement.execute();
             }else{
-                query = "UPDATE filmes SET nome = '" + nome +
-                        "' WHERE id = " + idEscolhido;
+                query = "UPDATE filmes SET id_categoria = ?, nome = ? WHERE id = ?";
+                var prepareStatement = conexao.prepareStatement(query);
+                prepareStatement.setInt(1, idCategoria);
+                prepareStatement.setString(2, nome);
+                prepareStatement.setInt(3, idEscolhido);
+                prepareStatement.execute();
                 idEscolhido = -1; // Retornar para o modo de cadatro
             }
-            var statement = conexao.createStatement();
-            statement.execute(query);
-            
+
             listarFilmes();
 
             JOptionPane.showMessageDialog(null, nome);
@@ -180,19 +211,14 @@ import javax.swing.table.DefaultTableModel;
 
     private void jButtonApagarListaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonApagarListaActionPerformed
             try {
-            var jdbcUrl = "jdbc:mysql://localhost:3306/locadora";
-            var jdbcUsuario = "root";
-            var jdbcSenha = "admin";
-
-            var conexao = DriverManager.getConnection(
-                    jdbcUrl, jdbcUsuario, jdbcSenha
-            );
+            var conexao = Banco.conectar();
             var indiceLinhaSelecionada = jTableFilmes.getSelectedRow();
             var idEscolhidoParaApagar = Integer.parseInt(jTableFilmes
-                    .getValueAt(indiceLinhaSelecionada, 0).toString());
-            var query = "DELETE FROM filmes WHERE id = '" + idEscolhidoParaApagar + "'";
-            var statement = conexao.createStatement();
-            statement.execute(query);
+           .getValueAt(indiceLinhaSelecionada, 0).toString());
+            var query = "DELETE FROM filmes WHERE id = ?";
+            var preparestatement = conexao.prepareCall(query);
+            preparestatement.setInt(1, idEscolhidoParaApagar);
+            preparestatement.execute();
             
             listarFilmes();
 
@@ -208,8 +234,35 @@ import javax.swing.table.DefaultTableModel;
     var indiceLinhaSelecionada = jTableFilmes.getSelectedRow();
     idEscolhido = Integer.parseInt(jTableFilmes
             .getValueAt(indiceLinhaSelecionada, 0).toString());
-    var nomeEscolhido = jTableFilmes.getValueAt(indiceLinhaSelecionada, 1). toString();
-    jTextFieldNome.setText(nomeEscolhido);
+    
+    try{
+        var conexao = Banco.conectar();
+            var query = "select"
+                    + " filmes.id,"
+                    + " filmes.id_categoria,"
+                    + " filmes.nome"
+                    + "  from filmes WHERE id = " + idEscolhido;
+            var statement = conexao.createStatement();
+            var dados = statement.executeQuery(query); //Tipo resultset
+            var categoriaNome = jTableFilmes.getValueAt(indiceLinhaSelecionada, 1). toString();
+            if(dados.next()){
+                var nome = dados.getString("nome");
+                var idCategoria = dados.getInt("id_categoria");
+                jTextFieldNome.setText(nome);
+                
+                var mensagem = idCategoria + " - " + categoriaNome;
+                for (int i = 0; i < jComboBoxCategoria.getItemCount(); i++) {
+                    var item = (String)jComboBoxCategoria.getItemAt(i);
+                    if(mensagem.equals(item)){
+                        jComboBoxCategoria.setSelectedItem(item);
+                    }
+                }
+            }
+    
+    }catch(SQLException e) {
+        e.printStackTrace();
+    }
+    
     
     /**
     * Exercício: Criar uma tabela chamada categorias com as seguintes colunas
@@ -220,14 +273,15 @@ import javax.swing.table.DefaultTableModel;
 // TODO add your handling code here:
     }//GEN-LAST:event_jButtonEditarListaActionPerformed
 
+    private void jComboBoxCategoriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxCategoriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBoxCategoriaActionPerformed
+
     private void listarFilmes() {
         try {
-            var jdbcUrl = "jdbc:mysql://localhost:3306/locadora";
-            var jdbcUsuario = "root";
-            var jdbcSenha = "admin";
-            var conexao = DriverManager.getConnection(
-                    jdbcUrl, jdbcUsuario, jdbcSenha);
-            var query = "SELECT id, nome FROM filmes";
+            var conexao = Banco.conectar();
+            var query = "select filmes.id, categorias.nome as 'categoria', filmes.nome  from filmes\n" +
+"inner join categorias on (filmes.id_categoria = categorias.id);";
             var statement = conexao.createStatement();
             var dados = statement.executeQuery(query); //Tipo resultset
             var modeloTabela = (DefaultTableModel) jTableFilmes.getModel();
@@ -236,12 +290,30 @@ import javax.swing.table.DefaultTableModel;
             while (dados.next()) {
                 var id = Integer.parseInt(dados.getString("id"));
                 var nome = dados.getString("nome");
+                var categoriaNome = dados.getString("categoria");
                 modeloTabela.addRow(new Object[]{
-                    id, nome
+                    id, categoriaNome, nome
                 });
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    
+    private void popularComboBoxCategorias(){
+        try{
+            var conexao = Banco.conectar();
+            var query = "SELECT id, nome FROM categorias";
+            var statement = conexao.createStatement();
+            var dados = statement.executeQuery(query);
+            while(dados.next()){
+                var categoriaNome = dados.getString("nome");
+                var categoriaId = dados.getInt("id");
+                jComboBoxCategoria.addItem(categoriaId + " - " + categoriaNome);
+            }
+            
+        } catch (SQLException e){
+         e.printStackTrace();
         }
     }
 
@@ -284,6 +356,8 @@ import javax.swing.table.DefaultTableModel;
     private javax.swing.JButton jButtomCadastrarNome;
     private javax.swing.JButton jButtonApagarLista;
     private javax.swing.JButton jButtonEditarLista;
+    private javax.swing.JComboBox<String> jComboBoxCategoria;
+    private javax.swing.JLabel jLabelCategoria;
     private javax.swing.JLabel jLabelLista;
     private javax.swing.JLabel jLabelNome;
     private javax.swing.JScrollPane jScrollPane1;

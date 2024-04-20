@@ -14,7 +14,7 @@ public class Produto {
     public int quantidade;
     public int codigo;
     
-    //método para calcular e retornar o preço do produto
+    //método para calcular e retornar o preço do Produto
     //método com retorno do tipo double
      public double calcularpreco(){
          var preco = quantidade * precoUnitario;
