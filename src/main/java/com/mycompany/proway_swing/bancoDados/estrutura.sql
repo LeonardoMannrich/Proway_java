@@ -11,6 +11,13 @@ CREATE TABLE filmes (
     id int AUTO_INCREMENT NOT NULL,
 id_categoria INT NOT NULL, 
     nome VARCHAR (100),
+classificacao tinyINT,
+orcamento DOUBLE,
+bilheteria DOUBLE,
+diretor VARCHAR(100),
+datapublicacao DATE,
+descricao TEXT,
+duracao Time,
 
 -- criando uma chave estrangeiras(referencia com outra tabela)
     foreign key(id_categoria) REFERENCES categorias(id),

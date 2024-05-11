@@ -184,7 +184,7 @@ public class CategoriaJFrame extends javax.swing.JFrame {
         var categorias = categoriaRepositorio.obterTodos();
         for (var i = 0; i < categorias.size(); i++) {
             var categoria = categorias.get(i);
-            modeloTabela.addRow(new Object[]{categoria.id,categoria.nome
+            modeloTabela.addRow(new Object[]{categoria.getId(),categoria.getNome()
 
             });
         }

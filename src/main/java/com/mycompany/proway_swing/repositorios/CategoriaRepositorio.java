@@ -67,8 +67,8 @@ public class CategoriaRepositorio {
                 var id = Integer.parseInt(dados.getString("id"));
                 var nome = dados.getString("nome");
                 var categoria = new Categoria();
-                categoria.id = id;
-                categoria.nome = nome;
+                categoria.setId (id);
+                categoria.setNome (nome);
                 categorias.add(categoria);
             }
         } catch (SQLException e) {

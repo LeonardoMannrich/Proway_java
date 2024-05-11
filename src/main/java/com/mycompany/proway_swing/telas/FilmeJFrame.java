@@ -11,6 +11,9 @@ import com.mycompany.proway_swing.repositorios.CategoriaRepositorio;
 import com.mycompany.proway_swing.repositorios.FilmeRepositorio;
 import javax.swing.JOptionPane;
 import java.sql.*;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -50,6 +53,18 @@ public class FilmeJFrame extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
         jLabelCategoria = new javax.swing.JLabel();
         jComboBoxCategoria = new javax.swing.JComboBox<>();
+        jFormattedTextFieldorcamento = new javax.swing.JFormattedTextField();
+        jFormattedTextFieldbilheteria = new javax.swing.JFormattedTextField();
+        jSliderclassificacao = new javax.swing.JSlider();
+        jFormattedTextFielddatadepublicacao = new javax.swing.JFormattedTextField();
+        jFormattedTextFieldduracao = new javax.swing.JFormattedTextField();
+        jLabelorcamento = new javax.swing.JLabel();
+        jLabeldiretor = new javax.swing.JLabel();
+        jLabeldatadepublicacao = new javax.swing.JLabel();
+        jLabelbilheteria = new javax.swing.JLabel();
+        jLabelclassificacao = new javax.swing.JLabel();
+        jLabelduracao = new javax.swing.JLabel();
+        jTextFielddiretor = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -104,12 +119,36 @@ public class FilmeJFrame extends javax.swing.JFrame {
 
         jLabelCategoria.setText("Categoria");
 
-        jComboBoxCategoria.setSelectedIndex(-1);
         jComboBoxCategoria.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBoxCategoriaActionPerformed(evt);
             }
         });
+
+        jFormattedTextFieldbilheteria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jFormattedTextFieldbilheteriaActionPerformed(evt);
+            }
+        });
+
+        jSliderclassificacao.setMinorTickSpacing(5);
+        jSliderclassificacao.setPaintTicks(true);
+
+        jFormattedTextFielddatadepublicacao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(new java.text.SimpleDateFormat("dd/MM/yyyy"))));
+
+        jFormattedTextFieldduracao.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT))));
+
+        jLabelorcamento.setText("orçamento");
+
+        jLabeldiretor.setText("Diretor");
+
+        jLabeldatadepublicacao.setText("Data de publicação");
+
+        jLabelbilheteria.setText("Bilheteria");
+
+        jLabelclassificacao.setText("Classificação");
+
+        jLabelduracao.setText("Duração");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -117,60 +156,96 @@ public class FilmeJFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jLabelLista))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 452, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButtonEditarLista)
-                            .addComponent(jButtonApagarLista))))
-                .addGap(3, 3, 3)
+                        .addComponent(jLabelLista)
+                        .addGap(205, 205, 205)
+                        .addComponent(jButtonEditarLista)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonApagarLista)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 209, Short.MAX_VALUE)
-                        .addComponent(jButtomCadastrarNome)
-                        .addGap(9, 9, 9))
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextFieldNome, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 280, Short.MAX_VALUE)
-                            .addComponent(jComboBoxCategoria, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jFormattedTextFielddatadepublicacao, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
+                                .addComponent(jTextFieldNome)
+                                .addComponent(jFormattedTextFieldorcamento)
+                                .addComponent(jTextFielddiretor, javax.swing.GroupLayout.PREFERRED_SIZE, 293, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabelNome)
+                                .addComponent(jLabelorcamento)
+                                .addComponent(jLabeldatadepublicacao))
+                            .addComponent(jLabeldiretor))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabelNome)
-                                    .addComponent(jLabelCategoria))
-                                .addGap(0, 0, Short.MAX_VALUE)))
-                        .addContainerGap())))
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabelbilheteria))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jComboBoxCategoria, 0, 250, Short.MAX_VALUE)
+                                .addComponent(jLabelCategoria)
+                                .addComponent(jFormattedTextFieldbilheteria)
+                                .addComponent(jSliderclassificacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jFormattedTextFieldduracao))
+                            .addComponent(jLabelclassificacao)
+                            .addComponent(jLabelduracao)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtomCadastrarNome)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jSeparator1)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabelLista)
-                    .addComponent(jLabelCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, Short.MAX_VALUE)
+                    .addComponent(jButtonEditarLista)
+                    .addComponent(jButtonApagarLista))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jComboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelNome)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelorcamento)
+                    .addComponent(jLabelbilheteria))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jFormattedTextFieldbilheteria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFormattedTextFieldorcamento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonEditarLista)
-                            .addComponent(jComboBoxCategoria, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButtonApagarLista))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(jLabelNome)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextFieldNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jButtomCadastrarNome))))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jLabeldiretor)
+                        .addGap(4, 4, 4)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jSliderclassificacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFielddiretor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jLabelclassificacao))
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabeldatadepublicacao)
+                    .addComponent(jLabelduracao))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jFormattedTextFielddatadepublicacao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jFormattedTextFieldduracao, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButtomCadastrarNome))
+            .addComponent(jSeparator1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
 
         pack();
@@ -181,13 +256,36 @@ public class FilmeJFrame extends javax.swing.JFrame {
 
         var nome = jTextFieldNome.getText();
         var categoria = (Categoria) jComboBoxCategoria.getSelectedItem();
+        var bilheteria = Double.parseDouble(jFormattedTextFieldbilheteria.getText());
+        var orcamento = Double.parseDouble(jFormattedTextFieldorcamento.getText());
+        var diretor = jTextFielddiretor.getText().trim();
+        var classificacao = jSliderclassificacao.getValue();
+        // dd/mm/yyyy
+        var dataPublicacao = LocalDate.parse(
+         jFormattedTextFielddatadepublicacao.getText(),
+                DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        );
+        // hh:mm
+        var duracao = LocalTime.parse(
+                jFormattedTextFieldduracao.getText(),
+                DateTimeFormatter.ISO_LOCAL_TIME
+        );
+                
+        
+        
 
         // instanciando um objeto da classe filme
         var filme = new Filme();
         // preenchendo as propriedades do objeto filme com os dados que
         // o usuário preencheu
-        filme.nome = nome;
-        filme.categoria = categoria;
+        filme.setNome(nome);
+        filme.setCategoria(categoria);
+        filme.setBilheteria(bilheteria);
+        filme.setOrcamento(orcamento);
+        filme.setDiretor(diretor);
+        filme.setClassificacao((byte)classificacao);
+        filme.setDuracao(duracao);
+        filme.setDataPublicacao(dataPublicacao);
         // instanciando um objeto da classe FilmeRepositorio, para realisar
         // o insert na tabela de filmes
         var filmeRepositorio = new FilmeRepositorio();
@@ -195,7 +293,7 @@ public class FilmeJFrame extends javax.swing.JFrame {
             //chamando o método inserir passando o objeto filme como parâmetro
             filmeRepositorio.inserir(filme);
         } else {
-            filme.id = idEscolhido;
+            filme.setId(  idEscolhido);
             filmeRepositorio.alterar(filme);
             idEscolhido = -1; // Retornar para o modo de cadatro
         }
@@ -225,10 +323,10 @@ public class FilmeJFrame extends javax.swing.JFrame {
                 .getValueAt(indiceLinhaSelecionada, 0).toString());
         var filmeRepositorio = new FilmeRepositorio();
         var filme = filmeRepositorio.obterPorId(idEscolhido);
-        jTextFieldNome.setText(filme.nome);
+        jTextFieldNome.setText(filme.getNome());
         for (int i = 0; i < jComboBoxCategoria.getItemCount(); i++) {
             var item = (Categoria) jComboBoxCategoria.getItemAt(i);
-            if (item.id == filme.categoria.id) {
+            if (item.getId() == filme.getCategoria().getId()) {
                 jComboBoxCategoria.setSelectedItem(item);
             }
         }
@@ -245,6 +343,10 @@ public class FilmeJFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBoxCategoriaActionPerformed
 
+    private void jFormattedTextFieldbilheteriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextFieldbilheteriaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jFormattedTextFieldbilheteriaActionPerformed
+
     private void listarFilmes() {
         var modeloTabela = (DefaultTableModel) jTableFilmes.getModel();
         // remover todos os elementos do jTable
@@ -254,9 +356,9 @@ public class FilmeJFrame extends javax.swing.JFrame {
         for (int i = 0; i < filmes.size(); i++) {
             var filme = filmes.get(i);
             modeloTabela.addRow(new Object[]{
-                filme.id,
-                filme.categoria.nome,
-                filme.nome
+                filme.getId(),
+                filme.getCategoria().getNome(),
+                filme.getNome()
             });
         }
 
@@ -321,12 +423,24 @@ public class FilmeJFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButtonApagarLista;
     private javax.swing.JButton jButtonEditarLista;
     private javax.swing.JComboBox<Categoria> jComboBoxCategoria;
+    private javax.swing.JFormattedTextField jFormattedTextFieldbilheteria;
+    private javax.swing.JFormattedTextField jFormattedTextFielddatadepublicacao;
+    private javax.swing.JFormattedTextField jFormattedTextFieldduracao;
+    private javax.swing.JFormattedTextField jFormattedTextFieldorcamento;
     private javax.swing.JLabel jLabelCategoria;
     private javax.swing.JLabel jLabelLista;
     private javax.swing.JLabel jLabelNome;
+    private javax.swing.JLabel jLabelbilheteria;
+    private javax.swing.JLabel jLabelclassificacao;
+    private javax.swing.JLabel jLabeldatadepublicacao;
+    private javax.swing.JLabel jLabeldiretor;
+    private javax.swing.JLabel jLabelduracao;
+    private javax.swing.JLabel jLabelorcamento;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSlider jSliderclassificacao;
     private javax.swing.JTable jTableFilmes;
     private javax.swing.JTextField jTextFieldNome;
+    private javax.swing.JTextField jTextFielddiretor;
     // End of variables declaration//GEN-END:variables
 }
