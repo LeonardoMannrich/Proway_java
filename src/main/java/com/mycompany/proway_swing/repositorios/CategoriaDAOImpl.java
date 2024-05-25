@@ -1,30 +1,29 @@
 package com.mycompany.proway_swing.repositorios;
 
-import com.mycompany.proway_swing.entidades.Cliente;
+import com.mycompany.proway_swing.entidades.Categoria;
 import jakarta.persistence.EntityManager;
 
 import java.util.List;
 
-public class ClienteDAOImpl implements ClienteDAO {
-
+public class CategoriaDAOImpl implements CategoriaDAO {
     private EntityManager entityManager;
 
     //construtor: construir o objeto com os dados necessários
     //public Nomeclasse(parametros*){
-    public ClienteDAOImpl(EntityManager entityManager){
+    public CategoriaDAOImpl(EntityManager entityManager){
         //armazenando o parâmetro entityMenager no atributo entityManager da classe, utilizando o this para
         //acessar o entityManager externo do construtor
         this.entityManager = entityManager;
     }
 
     @Override
-    public void salvar(Cliente cliente) {
+    public void salvar(Categoria categoria) {
         // Criando uma transação com o banco de dados
         var transaction = entityManager.getTransaction();
         try {
             // iniciando a transação
             transaction.begin();
-            entityManager.persist(cliente);
+            entityManager.persist(categoria);
             //gerar o insert into e persistir o cliente na tabela de clientes
             transaction.commit();
         }catch (RuntimeException e){
@@ -40,11 +39,11 @@ public class ClienteDAOImpl implements ClienteDAO {
     }
 
     @Override
-    public void atualizar(Cliente cliente) {
+    public void atualizar(Categoria categoria) {
         var transaction = entityManager.getTransaction();
         try{
             transaction.begin();
-            entityManager.merge(cliente);
+            entityManager.merge(categoria);
             transaction.commit();
         } catch (RuntimeException e) {
             if (transaction.isActive())
@@ -54,16 +53,16 @@ public class ClienteDAOImpl implements ClienteDAO {
     }
 
     @Override
-    public Cliente obterPorId(Long Id) {
+    public Categoria obterPorId(Long Id) {
         // SELECT * FROM clientes WHERE id = id;
-        return entityManager.find(Cliente.class, Id);
+        return entityManager.find(Categoria.class, Id);
 
     }
 
     @Override
-    public List<Cliente> obtertodos() {
+    public List<Categoria> obterTodos() {
         //SELECT * FROM clientes;
-        return entityManager.createQuery("from Cliente", Cliente.class).getResultList();
+        return entityManager.createQuery("from categorias", Categoria.class).getResultList();
     }
 
     @Override
@@ -71,10 +70,10 @@ public class ClienteDAOImpl implements ClienteDAO {
         var transaction = entityManager.getTransaction();
         try {
             transaction.begin();
-            var cliente = entityManager.find(Cliente.class, id);
-            if (cliente != null)
+            var categoria = entityManager.find(Categoria.class, id);
+            if (categoria != null)
                 //Executando o DELETE FROM clientes WHERE id = id;
-                entityManager.remove(cliente);
+                entityManager.remove(categoria);
             transaction.commit();
         }catch (RuntimeException e){
             if (transaction.isActive())
@@ -84,3 +83,5 @@ public class ClienteDAOImpl implements ClienteDAO {
 
     }
 }
+
+
